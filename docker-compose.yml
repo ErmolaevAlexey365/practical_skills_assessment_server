@@ -1,0 +1,29 @@
+version: "3"
+services:
+  main:
+    container_name: 'main'
+    build:
+      context: .
+    environment:
+      - PORT=5000
+      - DB_CONNECTION_LINK=mongodb://mongo:27017/psa
+    volumes:
+      - '.:/app'
+    ports:
+      - '5000:5000'
+    command: npm run app:dev
+    depends_on:
+      - 'mongo'
+    restart: 'always'
+
+  mongo:
+    container_name: 'mongo'
+    image: 'mongo'
+    ports:
+      - '27017:27017'
+    volumes:
+      - 'mongo:/data/db'
+    restart: 'always'
+
+volumes:
+  mongo:
